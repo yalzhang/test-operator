@@ -1,0 +1,29 @@
+--- confidentialcluster_editor_role.yaml.original	2025-11-24 00:46:14.030442779 +0800
++++ confidentialcluster_editor_.yaml.modified	2025-11-24 00:48:11.157164152 +0800
+@@ -5,7 +5,7 @@
+ # This rule is not used by the project trusted-cluster-operator itself.
+ # It is provided to allow the cluster admin to help manage permissions for users.
+ #
+-# Grants permissions to create, update, and delete resources within the trusted-execution-clusters.io.
++# Grants permissions to create, update, and delete resources within the confidential-clusters.io.
+ # This role is intended for users who need to manage these resources
+ # but should not control RBAC or manage permissions for others.
+ 
+@@ -18,7 +18,7 @@
+   name: trustedexecutioncluster-editor-role
+ rules:
+ - apiGroups:
+-  - trusted-execution-clusters.io
++  - confidential-clusters.io
+   resources:
+   - trustedexecutionclusters
+   verbs:
+@@ -30,7 +30,7 @@
+   - update
+   - watch
+ - apiGroups:
+-  - trusted-execution-clusters.io
++  - confidential-clusters.io
+   resources:
+   - trustedexecutionclusters/status
+   verbs:

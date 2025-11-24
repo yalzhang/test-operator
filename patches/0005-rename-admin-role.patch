@@ -1,0 +1,27 @@
+--- confidentialcluster_admin_role.yaml.original	2025-11-24 00:44:12.248295926 +0800
++++ confidentialcluster_admin_role.yaml.modified	2025-11-24 00:44:54.024335346 +0800
+@@ -5,7 +5,7 @@
+ # This rule is not used by the project trusted-cluster-operator itself.
+ # It is provided to allow the cluster admin to help manage permissions for users.
+ #
+-# Grants full permissions ('*') over trusted-execution-clusters.io.
++# Grants full permissions ('*') over confidential-clusters.io.
+ # This role is intended for users authorized to modify roles and bindings within the cluster,
+ # enabling them to delegate specific permissions to other users or groups as needed.
+ 
+@@ -18,13 +18,13 @@
+   name: trustedexecutioncluster-admin-role
+ rules:
+ - apiGroups:
+-  - trusted-execution-clusters.io
++  - confidential-clusters.io
+   resources:
+   - trustedexecutionclusters
+   verbs:
+   - '*'
+ - apiGroups:
+-  - trusted-execution-clusters.io
++  - confidential-clusters.io
+   resources:
+   - trustedexecutionclusters/status
+   verbs:

@@ -1,0 +1,20 @@
+--- PROJECT.original	2025-11-24 00:40:00.734058612 +0800
++++ PROJECT.modified	2025-11-24 00:40:10.933390033 +0800
+@@ -13,7 +13,7 @@
+     crdVersion: v1
+     namespaced: true
+   domain: io
+-  group: trusted-execution-clusters
++  group: confidential-clusters
+   kind: TrustedExecutionCluster
+   path: io/trustedexecutioncluster/api/v1alpha1
+   version: v1alpha1
+@@ -21,7 +21,7 @@
+     crdVersion: v1
+     namespaced: true
+   domain: io
+-  group: trusted-execution-clusters
++  group: confidential-clusters
+   kind: Machine
+   path: io/trustedexecutioncluster/api/v1alpha1
+   version: v1alpha1

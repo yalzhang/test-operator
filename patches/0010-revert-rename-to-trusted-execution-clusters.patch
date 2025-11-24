@@ -1,0 +1,168 @@
+diff -ur ../after/Cargo.lock ../before/Cargo.lock
+--- ../after/Cargo.lock	2025-11-24 01:03:20.120165896 +0800
++++ ../before/Cargo.lock	2025-11-24 01:02:05.180148140 +0800
+@@ -428,7 +428,7 @@
+ [[package]]
+ name = "compute-pcrs-lib"
+ version = "0.1.0"
+-source = "git+https://github.com/trusted-execution-clusters/compute-pcrs#8796ce3547db464fcfb0c11d29e0f2b89aa94a1d"
++source = "git+https://github.com/confidential-clusters/compute-pcrs#c0eedf6cf4e1a1ef76bed9c8b835097e4e153132"
+ dependencies = [
+  "anyhow",
+  "glob",
+diff -ur ../after/Cargo.toml ../before/Cargo.toml
+--- ../after/Cargo.toml	2025-11-24 01:03:20.120165896 +0800
++++ ../before/Cargo.toml	2025-11-24 01:02:05.180148140 +0800
+@@ -16,7 +16,7 @@
+ chrono = "0.4.42"
+ clap = { version = "4.5.51", features = ["derive"] }
+ clevis-pin-trustee-lib = { git = "https://github.com/latchset/clevis-pin-trustee" }
+-compute-pcrs-lib = { git = "https://github.com/trusted-execution-clusters/compute-pcrs" }
++compute-pcrs-lib = { git = "https://github.com/confidential-clusters/compute-pcrs" }
+ env_logger = "0.11.8"
+ k8s-openapi = { version = "0.26.0", features = ["v1_33", "schemars"] }
+ kube = { version = "2.0.1", default-features = false, features = ["derive", "runtime", "openssl-tls"] }
+diff -ur ../after/compute-pcrs/Containerfile ../before/compute-pcrs/Containerfile
+--- ../after/compute-pcrs/Containerfile	2025-11-24 01:03:20.116253449 +0800
++++ ../before/compute-pcrs/Containerfile	2025-11-24 01:02:05.176997265 +0800
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: CC0-1.0
+ 
+ ARG build_type
+-FROM ghcr.io/trusted-execution-clusters/buildroot AS builder
++FROM ghcr.io/confidential-clusters/buildroot AS builder
+ ARG build_type
+ WORKDIR /build
+ 
+@@ -22,7 +22,7 @@
+ # Set only required crates as members to minimize rebuilds upon changes.
+ # Build dependencies in lower layer to make use of caching.
+ RUN sed -i 's/members =.*/members = ["compute-pcrs", "lib"]/' Cargo.toml && \
+-    git clone --depth 1 https://github.com/trusted-execution-clusters/reference-values && \
++    git clone --depth 1 https://github.com/confidential-clusters/reference-values && \
+     cargo build -p compute-pcrs --lib $(if [ "$build_type" = release ]; then echo --release; fi)
+ 
+ COPY compute-pcrs/src compute-pcrs/src
+diff -ur ../after/Containerfile ../before/Containerfile
+--- ../after/Containerfile	2025-11-24 01:03:20.120165896 +0800
++++ ../before/Containerfile	2025-11-24 01:02:05.180148140 +0800
+@@ -5,7 +5,7 @@
+ 
+ ARG build_type
+ # Dependency build stage
+-FROM ghcr.io/trusted-execution-clusters/buildroot AS builder
++FROM ghcr.io/confidential-clusters/buildroot AS builder
+ ARG build_type
+ WORKDIR /build
+ 
+diff -ur ../after/docs/design/reference-values.md ../before/docs/design/reference-values.md
+--- ../after/docs/design/reference-values.md	2025-11-24 01:03:20.118882075 +0800
++++ ../before/docs/design/reference-values.md	2025-11-24 01:02:05.182951060 +0800
+@@ -3,7 +3,7 @@
+ ## Overview
+ 
+ Attestation in Trusted Execution Clusters is based on PCR values reported by a TPM.
+-These values can be predicted when the exact OS the node is expected to be used is known, by means of the [compute-pcrs](https://github.com/trusted-execution-clusters/compute-pcrs) library.
++These values can be predicted when the exact OS the node is expected to be used is known, by means of the [compute-pcrs](https://github.com/confidential-clusters/compute-pcrs) library.
+ In the design of Trusted Execution Clusters, the OS is represented by a bootable container image with a [UKI](https://uapi-group.org/specifications/specs/unified_kernel_image).
+ 
+ This document describes how a bootable image tag becomes approved and revoked, and how the set of approved image tags is turned into reference values to be used by Trustee's [reference value provider service](https://github.com/confidential-containers/trustee/tree/main/rvps).
+diff -ur ../after/.git/HEAD ../before/.git/HEAD
+--- ../after/.git/HEAD	2025-11-24 01:03:20.115196125 +0800
++++ ../before/.git/HEAD	2025-11-24 01:02:05.175903592 +0800
+@@ -1 +1 @@
+-c1048d93e2f215a22a508b1cd00dca64a385f88d
++5df9c247f0e8761a31491ce8f0f78b18f5cdb6bf
+Binary files ../after/.git/index and ../before/.git/index differ
+diff -ur ../after/.git/logs/HEAD ../before/.git/logs/HEAD
+--- ../after/.git/logs/HEAD	2025-11-24 01:03:20.115196125 +0800
++++ ../before/.git/logs/HEAD	2025-11-24 01:02:05.175903592 +0800
+@@ -2,4 +2,3 @@
+ 56a7807932a75e6aa1c72d399cc28d912e5e70c0 13e26a98e5f8a1cbbf401b918d7288090a5a6c05 Yalan Zhang <yalzhang@redhat.com> 1763916974 +0800	checkout: moving from main to 69c2b6e2eb384b57ea6d7ab91795f37ea314d630^
+ 13e26a98e5f8a1cbbf401b918d7288090a5a6c05 69c2b6e2eb384b57ea6d7ab91795f37ea314d630 Yalan Zhang <yalzhang@redhat.com> 1763917046 +0800	checkout: moving from 13e26a98e5f8a1cbbf401b918d7288090a5a6c05 to 69c2b6e2eb384b57ea6d7ab91795f37ea314d630
+ 69c2b6e2eb384b57ea6d7ab91795f37ea314d630 5df9c247f0e8761a31491ce8f0f78b18f5cdb6bf Yalan Zhang <yalzhang@redhat.com> 1763917294 +0800	checkout: moving from 69c2b6e2eb384b57ea6d7ab91795f37ea314d630 to c1048d9^
+-5df9c247f0e8761a31491ce8f0f78b18f5cdb6bf c1048d93e2f215a22a508b1cd00dca64a385f88d Yalan Zhang <yalzhang@redhat.com> 1763917376 +0800	checkout: moving from 5df9c247f0e8761a31491ce8f0f78b18f5cdb6bf to c1048d9
+diff -ur ../after/.github/workflows/lint.yml ../before/.github/workflows/lint.yml
+--- ../after/.github/workflows/lint.yml	2025-11-24 01:03:20.115552104 +0800
++++ ../before/.github/workflows/lint.yml	2025-11-24 01:02:05.176239562 +0800
+@@ -28,7 +28,7 @@
+   linting:
+     name: "Lints, pinned toolchain"
+     runs-on: "ubuntu-24.04"
+-    container: "ghcr.io/trusted-execution-clusters/buildroot:latest"
++    container: "ghcr.io/confidential-clusters/buildroot:latest"
+     steps:
+       - name: "Check out repository"
+         uses: actions/checkout@v5
+diff -ur ../after/.github/workflows/rust.yml ../before/.github/workflows/rust.yml
+--- ../after/.github/workflows/rust.yml	2025-11-24 01:03:20.115552104 +0800
++++ ../before/.github/workflows/rust.yml	2025-11-24 01:02:05.176239562 +0800
+@@ -26,7 +26,7 @@
+   tests-stable:
+     name: "Tests, stable toolchain"
+     runs-on: "ubuntu-24.04"
+-    container: "ghcr.io/trusted-execution-clusters/buildroot:latest"
++    container: "ghcr.io/confidential-clusters/buildroot:latest"
+     steps:
+       - name: "Check out repository"
+         uses: actions/checkout@v5
+@@ -50,7 +50,7 @@
+   tests-release-stable:
+     name: "Tests (release), stable toolchain"
+     runs-on: "ubuntu-24.04"
+-    container: "ghcr.io/trusted-execution-clusters/buildroot:latest"
++    container: "ghcr.io/confidential-clusters/buildroot:latest"
+     steps:
+       - name: "Check out repository"
+         uses: actions/checkout@v5
+@@ -74,7 +74,7 @@
+   tests-release-msrv:
+     name: "Tests (release), minimum supported toolchain"
+     runs-on: "ubuntu-24.04"
+-    container: "ghcr.io/trusted-execution-clusters/buildroot:latest"
++    container: "ghcr.io/confidential-clusters/buildroot:latest"
+     steps:
+       - name: "Check out repository"
+         uses: actions/checkout@v5
+@@ -104,7 +104,7 @@
+   tests-other-channels:
+     name: "Tests, unstable toolchain"
+     runs-on: "ubuntu-24.04"
+-    container: "ghcr.io/trusted-execution-clusters/buildroot:latest"
++    container: "ghcr.io/confidential-clusters/buildroot:latest"
+     continue-on-error: true
+     strategy:
+       matrix:
+diff -ur ../after/README.md ../before/README.md
+--- ../after/README.md	2025-11-24 01:03:20.120165896 +0800
++++ ../before/README.md	2025-11-24 01:02:05.180724583 +0800
+@@ -13,7 +13,7 @@
+ -   `/api`: Defines the `TrustedExecutionCluster` Custom Resource Definition (CRD) and associated CRDs and RBAC definitions in Go. Also contains a program to generate a `TrustedExecutionCluster` CR and associated deployment.
+ -   `/operator`: Contains the source code for the Kubernetes operator itself.
+ -   `/register-server`: A server that provides Clevis PINs for key retrieval with random UUIDs.
+--   `/compute-pcrs`: A program to compute PCR reference values using the [compute-pcrs library](https://github.com/trusted-execution-clusters/compute-pcrs) and insert them into a ConfigMap, run as a Job.
++-   `/compute-pcrs`: A program to compute PCR reference values using the [compute-pcrs library](https://github.com/confidential-clusters/compute-pcrs) and insert them into a ConfigMap, run as a Job.
+ -   `/lib`: Shared Rust definitions, including translated CRDs
+ -   `/scripts`: Helper scripts for managing a local `kind` development cluster.
+ -   `/config`: The default output directory for generated manifests. This directory is not checked into source control.
+@@ -54,7 +54,7 @@
+ ### Test
+ 
+ Run a VM as described in the
+-[investigations](https://github.com/trusted-execution-clusters/investigations?tab=readme-ov-file#example-with-the-trusted-execution-clusters-operator-and-a-local-vm)
++[investigations](https://github.com/confidential-clusters/investigations?tab=readme-ov-file#example-with-the-trusted-execution-clusters-operator-and-a-local-vm)
+ repository.
+ 
+ ## Licenses
+diff -ur ../after/register-server/Containerfile ../before/register-server/Containerfile
+--- ../after/register-server/Containerfile	2025-11-24 01:03:20.117282953 +0800
++++ ../before/register-server/Containerfile	2025-11-24 01:02:05.179762373 +0800
+@@ -3,7 +3,7 @@
+ # SPDX-License-Identifier: CC0-1.0
+ 
+ ARG build_type
+-FROM ghcr.io/trusted-execution-clusters/buildroot AS builder
++FROM ghcr.io/confidential-clusters/buildroot AS builder
+ ARG build_type
+ WORKDIR /build
+ 

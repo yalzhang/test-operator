@@ -1,0 +1,37 @@
+--- Makefile.original	2025-11-24 00:40:49.129104271 +0800
++++ Makefile.modified	2025-11-24 00:41:05.844120041 +0800
+@@ -5,7 +5,7 @@
+ 
+ .PHONY: all build build-tools crds-rs generate manifests cluster-up cluster-down image push install-trustee install clean fmt-check clippy lint test test-release release-tarball
+ 
+-NAMESPACE ?= trusted-execution-clusters
++NAMESPACE ?= confidential-clusters
+ 
+ KUBECTL=kubectl
+ 
+@@ -18,14 +18,14 @@
+ KOPIUM_VERSION ?= 0.21.3
+ KOPIUM ?= $(LOCALBIN)/kopium-$(KOPIUM_VERSION)
+ 
+-REGISTRY ?= quay.io/trusted-execution-clusters
++REGISTRY ?= quay.io/confidential-clusters
+ TAG ?= latest
+ PUSH_FLAGS ?=
+ OPERATOR_IMAGE=$(REGISTRY)/trusted-cluster-operator:$(TAG)
+ COMPUTE_PCRS_IMAGE=$(REGISTRY)/compute-pcrs:$(TAG)
+ REG_SERVER_IMAGE=$(REGISTRY)/registration-server:$(TAG)
+ # TODO add support for TPM AK verification, then move to a KBS with implemented verifier
+-TRUSTEE_IMAGE ?= quay.io/trusted-execution-clusters/key-broker-service:tpm-verifier-built-in-as-20250711
++TRUSTEE_IMAGE ?= quay.io/confidential-clusters/key-broker-service:tpm-verifier-built-in-as-20250711
+ 
+ BUILD_TYPE ?= release
+ 
+@@ -49,7 +49,7 @@
+ $(CRD_RS_PATH):
+ 	mkdir $(CRD_RS_PATH)
+ 
+-YAML_PREFIX = trusted-execution-clusters.io_
++YAML_PREFIX = confidential-clusters.io_
+ $(CRD_RS_PATH)/%.rs: $(CRD_YAML_PATH)/$(YAML_PREFIX)%.yaml $(KOPIUM) $(CRD_RS_PATH)
+ 	$(KOPIUM) -f $< > $@
+ 	rustfmt $@

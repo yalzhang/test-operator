@@ -1,0 +1,20 @@
+--- lib.rs.after	2025-11-24 00:58:09.668406407 +0800
++++ lib.rs.before	2025-11-24 00:56:50.234299035 +0800
+@@ -9,7 +9,7 @@
+ 
+ #[derive(CustomResource, Default, Debug, Clone, Deserialize, Serialize, JsonSchema)]
+ #[kube(
+-    group = "confidential-clusters.io",
++    group = "confidential-containers.io",
+     version = "v1alpha1",
+     kind = "ConfidentialCluster",
+     namespaced,
+@@ -30,7 +30,7 @@
+ 
+ #[derive(CustomResource, Debug, Clone, Deserialize, Serialize, JsonSchema)]
+ #[kube(
+-    group = "confidential-clusters.io",
++    group = "confidential-containers.io",
+     version = "v1alpha1",
+     kind = "Machine",
+     namespaced,

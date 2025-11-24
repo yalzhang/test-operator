@@ -1,0 +1,24 @@
+--- kustomization.yaml.original	2025-11-24 00:41:46.941158818 +0800
++++ kustomization.yaml.modified	2025-11-24 00:43:43.915608999 +0800
+@@ -2,7 +2,7 @@
+ #
+ # SPDX-License-Identifier: CC0-1.0
+ 
+-namespace: trusted-execution-clusters
++namespace: confidential-clusters
+ resources:
+   # All RBAC will be applied under this service account in
+   # the deployment namespace. You may comment out this resource
+@@ -27,9 +27,9 @@
+   # default, aiding admins in cluster management. Those roles are
+   # not used by the trusted-cluster-operator itself. You can comment the following lines
+   # if you do not want those helpers be installed with your Project.
+-  - trustedexecutioncluster_admin_role.yaml
+-  - trustedexecutioncluster_editor_role.yaml
+-  - trustedexecutioncluster_viewer_role.yaml
++  - confidentialcluster_admin_role.yaml
++  - confidentialcluster_editor_role.yaml
++  - confidentialcluster_viewer_role.yaml
+   - machine_admin_role.yaml
+   - machine_editor_role.yaml
+   - machine_viewer_role.yaml

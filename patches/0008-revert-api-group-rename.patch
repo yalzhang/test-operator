@@ -1,0 +1,36 @@
+can't find file to patch at input line 15
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|commit 69c2b6e2eb384b57ea6d7ab91795f37ea314d630
+|Author: Jakob Naucke <jnaucke@redhat.com>
+|Date:   Thu Oct 16 13:38:36 2025 +0200
+|
+|    API group confidential-clusters.io
+|    
+|    was confidential-containers.io, which isn't this project
+|    
+|    Signed-off-by: Jakob Naucke <jnaucke@redhat.com>
+|
+|diff --git a/crds/src/lib.rs b/crds/src/lib.rs
+|index 9faa9b6..181bed1 100644
+|--- a/crds/src/lib.rs
+|+++ b/crds/src/lib.rs
+--------------------------
+File to patch: 
+Skip this patch? [y] 
+Skipping patch.
+2 out of 2 hunks ignored
+can't find file to patch at input line 37
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|diff --git a/manifest-gen/src/main.rs b/manifest-gen/src/main.rs
+|index 52c1e6b..929fa30 100644
+|--- a/manifest-gen/src/main.rs
+|+++ b/manifest-gen/src/main.rs
+--------------------------
+File to patch: 
+Skip this patch? [y] 
+Skipping patch.
+1 out of 1 hunk ignored
